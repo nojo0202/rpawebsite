@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RPA Accounting</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --lime:    #c8e86a;
+      --lime-dk: #afd44a;
+      --black:   #111111;
+      --white:   #ffffff;
+      --offwhite:#f5f5f0;
+      --purple:  #9b8ec4;
+      --green:   #c8e86a;
+      --grey:    #a8a8a8;
+      --text:    #1a1a1a;
+      --muted:   #555;
+      --border:  #222;
+      --font-head: 'Bebas Neue', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+      --radius: 18px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--offwhite);
+      color: var(--text);
+      font-family: var(--font-body);
+      line-height: 1.6;
+    }
+
+    /* ── Sticky Nav ── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      background: var(--black);
+      border-bottom: 3px solid var(--lime);
+      padding: 0 32px;
+    }
+
+    .nav-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+      gap: 12px;
+    }
+
+    .nav-logo {
+      font-family: var(--font-head);
+      font-size: 1.5rem;
+      color: var(--lime);
+      letter-spacing: .05em;
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: #ccc;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .04em;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: color .15s, background .15s;
+      white-space: nowrap;
+    }
+
+    .nav-links a:hover {
+      color: var(--black);
+      background: var(--lime);
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background: var(--lime);
+      padding: 72px 32px 56px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: '✦';
+      position: absolute;
+      right: 5%;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 8rem;
+      color: var(--black);
+      opacity: .15;
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-family: var(--font-head);
+      font-size: clamp(4rem, 10vw, 7rem);
+      color: var(--black);
+      line-height: .95;
+      letter-spacing: .02em;
+    }
+
+    .hero-bar {
+      width: 180px;
+      height: 4px;
+      background: var(--black);
+      margin: 18px 0 20px;
+    }
+
+    .hero p {
+      font-size: 16px;
+      color: var(--black);
+      max-width: 540px;
+      opacity: .75;
+      font-weight: 500;
+    }
+
+    /* ── Sections wrapper ── */
+    .sections {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 56px 32px 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 56px;
+    }
+
+    /* ── Section card ── */
+    .section-card {
+      background: var(--white);
+      border: 2px solid var(--black);
+      border-radius: var(--radius);
+      padding: 40px 44px;
+      animation: fadeUp .5s ease both;
+    }
+
+    .section-label {
+      display: inline-block;
+      background: var(--lime);
+      color: var(--black);
+      font-family: var(--font-head);
+      font-size: .85rem;
+      letter-spacing: .12em;
+      padding: 3px 14px;
+      border-radius: 4px;
+      margin-bottom: 14px;
+    }
+
+    .section-card h2 {
+      font-family: var(--font-head);
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      color: var(--black);
+      letter-spacing: .03em;
+      line-height: 1.05;
+      margin-bottom: 22px;
+    }
+
+    .divider {
+      height: 2px;
+      background: var(--black);
+      margin-bottom: 28px;
+      width: 60px;
+    }
+
+    /* ── What is RPA ── */
+    .rpa-bullets {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .rpa-bullet {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .bullet-dot {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+
+    .dot-purple { background: var(--purple); }
+    .dot-lime   { background: var(--lime); border: 2px solid #aaa; }
+    .dot-grey   { background: var(--grey); }
+
+    .rpa-bullet p {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .rpa-bullet p strong { color: var(--text); }
+
+    /* ── Impact ── */
+    .impact-body {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 700px;
+    }
+
+    /* ── Advantages / Disadvantages ── */
+    .adv-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 8px;
+    }
+
+    .adv-box {
+      border: 2px solid var(--black);
+      border-radius: 12px;
+      padding: 24px 26px;
+    }
+
+    .adv-box h3 {
+      font-family: var(--font-head);
+      font-size: 1.3rem;
+      letter-spacing: .05em;
+      margin-bottom: 14px;
+    }
+
+    .adv-box.advantages h3  { color: var(--black); }
+    .adv-box.disadvantages h3 { color: var(--black); }
+
+    .adv-box.advantages   { background: #f4fce8; }
+    .adv-box.disadvantages { background: #fff5f5; }
+
+    .adv-box ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .adv-box ul li {
+      font-size: 14px;
+      color: var(--muted);
+      padding-left: 20px;
+      position: relative;
+      line-height: 1.5;
+    }
+
+    .adv-box.advantages ul li::before {
+      content: '✓';
+      position: absolute; left: 0;
+      color: #5a9a1a;
+      font-weight: 700;
+    }
+
+    .adv-box.disadvantages ul li::before {
+      content: '✕';
+      position: absolute; left: 0;
+      color: #c0392b;
+      font-weight: 700;
+    }
+
+    /* ── Software ── */
+    .software-bullets {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+
+    .software-bullet {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .sw-dot {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+
+    .sw-content h4 {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--black);
+      margin-bottom: 4px;
+    }
+
+    .sw-content p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .uipath-banner {
+      background: var(--black);
+      border-radius: 12px;
+      padding: 24px 28px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .uipath-badge {
+      background: #5cb89e;
+      color: var(--white);
+      font-family: var(--font-head);
+      font-size: 1.6rem;
+      letter-spacing: .05em;
+      padding: 12px 22px;
+      border-radius: 10px;
+      flex-shrink: 0;
+    }
+
+    .uipath-text {
+      flex: 1;
+    }
+
+    .uipath-text p {
+      color: #ddd;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .uipath-text p strong { color: var(--lime); }
+
+    /* ── Future ── */
+    .future-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .future-box {
+      border: 2px solid var(--black);
+      border-radius: 12px;
+      padding: 26px;
+    }
+
+    .future-box h3 {
+      font-family: var(--font-head);
+      font-size: 1.1rem;
+      letter-spacing: .08em;
+      color: var(--black);
+      margin-bottom: 10px;
+    }
+
+    .future-box p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .future-box.highlight {
+      background: var(--lime);
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .future-box.highlight h3 { color: var(--black); font-size: 1.4rem; }
+    .future-box.highlight p  { color: #333; }
+
+    .future-stat {
+      font-family: var(--font-head);
+      font-size: 3rem;
+      color: var(--black);
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--black);
+      color: #888;
+      text-align: center;
+      font-size: 12px;
+      padding: 24px;
+      letter-spacing: .06em;
+    }
+
+    footer span { color: var(--lime); }
+
+    .section-label { display: none; }
+
+    /* ── References ── */
+    .ref-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .ref-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 14px 18px;
+      background: var(--offwhite);
+      border-radius: 8px;
+      border-left: 3px solid var(--lime);
+      transition: background .15s;
+    }
+
+    .ref-item:hover { background: #edf5d0; }
+
+    .ref-num {
+      font-family: var(--font-head);
+      font-size: 1rem;
+      color: #aaa;
+      flex-shrink: 0;
+      width: 22px;
+      padding-top: 1px;
+    }
+
+    .ref-text {
+      font-size: 13.5px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .ref-text a {
+      color: var(--black);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      word-break: break-all;
+      font-size: 12.5px;
+    }
+
+    .ref-text a:hover { color: #5a9a1a; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 640px) {
+      .adv-grid    { grid-template-columns: 1fr; }
+      .future-grid { grid-template-columns: 1fr; }
+      .future-box.highlight { flex-direction: column; gap: 10px; }
+      .nav-links a { font-size: 10px; padding: 5px 8px; }
+      .section-card { padding: 28px 22px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-logo">RPA ACCOUNTING</div>
+      <div class="nav-links">
+        <a href="#what">What is RPA?</a>
+        <a href="#impact">Impact</a>
+        <a href="#advdis">Advantages & Disadvantages</a>
+        <a href="#software">RPA Software</a>
+        <a href="#future">Future of RPAs</a>
+        <a href="#references">References</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="hero-inner">
+      <h1>RPA<br>ACCOUNTING</h1>
+      <div class="hero-bar"></div>
+      <p style="font-family:var(--font-head);font-size:1.4rem;letter-spacing:.1em;color:var(--black);opacity:.6;margin-bottom:10px;">GROUP 6</p>
+      <p>Exploring how Robotic Process Automation is transforming the accounting industry — from repetitive tasks to intelligent automation.</p>
+    </div>
+  </header>
+
+  <div class="sections">
+
+    <!-- 1. What is RPA Accounting? -->
+    <div class="section-card" id="what">
+      <span class="section-label">SECTION 01</span>
+      <h2>What is RPA Accounting?</h2>
+      <div class="divider"></div>
+      <div class="rpa-bullets">
+        <div class="rpa-bullet">
+          <div class="bullet-dot dot-purple"></div>
+          <p><strong>RPA = Robotic Process Automation.</strong> RPA is technology that uses software to complete repetitive tasks done by humans.</p>
+        </div>
+        <div class="rpa-bullet">
+          <div class="bullet-dot dot-lime"></div>
+          <p>The program follows steps given by a person (accountant) and then repeats those steps to complete clear, basic duties.</p>
+        </div>
+        <div class="rpa-bullet">
+          <div class="bullet-dot dot-grey"></div>
+          <p>Essentially, RPA in accounting is like having a virtual assistant that does simple tasks for you — such as typing numbers from invoices into accounting systems, reading emails, matching transactions from bank to company records, and keeping up to date with Accounts Receivable and Payable.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Impact on the Accounting Industry -->
+    <div class="section-card" id="impact">
+      <span class="section-label">SECTION 02</span>
+      <h2>Impact on the Accounting Industry</h2>
+      <div class="divider"></div>
+      <p class="impact-body">
+        Robotic Process Automation (RPA) is creating a major impact on the Accounting Industry. Studies have shown that RPA can significantly reduce costs and human error, while operating at much higher speeds and around the clock (Otero &amp; Fink, 2020). For business managers this means lower labour costs, more accurate financial data, and more time for employees to focus on high value tasks rather than repetitive routine work.
+      </p>
+    </div>
+
+    <!-- 3. Advantages & Disadvantages -->
+    <div class="section-card" id="advdis">
+      <span class="section-label">SECTION 03</span>
+      <h2>Advantages &amp; Disadvantages</h2>
+      <div class="divider"></div>
+      <div class="adv-grid">
+        <div class="adv-box advantages">
+          <h3>✓ Advantages</h3>
+          <ul>
+            <li>Uses the same interface and applications as users</li>
+            <li>Works effectively with several applications simultaneously</li>
+            <li>Approximately 80% faster than humans (Deloitte, 2025)</li>
+            <li>Works 24/7 → increasing efficiency</li>
+            <li>Allows employees to prioritize higher value tasks</li>
+          </ul>
+        </div>
+        <div class="adv-box disadvantages">
+          <h3>✕ Disadvantages</h3>
+          <ul>
+            <li>High initial startup cost (ranging from $15,000 per bot to $20M+ for full systems for a large company (Solutions, 2023))</li>
+            <li>Needs to be updated whenever processes and systems change</li>
+            <li>Creates tension in the workplace and the industry as a whole due to fear of job loss</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. RPA Software for Businesses -->
+    <div class="section-card" id="software">
+      <span class="section-label">SECTION 04</span>
+      <h2>RPA Software for Businesses</h2>
+      <div class="divider"></div>
+      <div class="software-bullets">
+        <div class="software-bullet">
+          <div class="sw-dot dot-purple"></div>
+          <div class="sw-content">
+            <h4>Small Businesses</h4>
+            <p>Most companies like starting out using <strong>Microsoft Power Automate</strong> to automate menial accounting tasks on Microsoft applications like Excel.</p>
+          </div>
+        </div>
+        <div class="software-bullet">
+          <div class="sw-dot dot-lime"></div>
+          <div class="sw-content">
+            <h4>Large Businesses</h4>
+            <p>They prefer RPA applications like <strong>SAP Build</strong> and <strong>UiPath Automation Platform</strong> for flexible and customizable builds tailored to their accounting department.</p>
+          </div>
+        </div>
+        <div class="software-bullet">
+          <div class="sw-dot dot-grey"></div>
+          <div class="sw-content">
+            <h4>Complex Builds</h4>
+            <p>Companies prefer <strong>IBM RPA Studio</strong> for complex automation such as forecasting and analytics.</p>
+          </div>
+        </div>
+      </div>
+      <div class="uipath-banner">
+        <div class="uipath-badge">UiPath</div>
+        <div class="uipath-text">
+          <p><strong>UiPath is the most commonly used software among accounting firms.</strong></p>
+          <p>Used by major companies including PWC, Deloitte, and Ernst &amp; Young.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Future of RPAs -->
+    <div class="section-card" id="future">
+      <span class="section-label">SECTION 05</span>
+      <h2>Future of RPAs</h2>
+      <div class="divider"></div>
+      <div class="future-grid">
+        <div class="future-box highlight">
+          <div class="future-stat">$66B</div>
+          <div>
+            <h3>Market Prediction</h3>
+            <p>Experts value the RPA market at <strong>$3B in 2023</strong>, and predict it to grow anywhere between <strong>$6.7B to $66B by 2032</strong> depending on growth trajectory.</p>
+          </div>
+        </div>
+        <div class="future-box">
+          <h3>Trajectory</h3>
+          <p><strong>Hyperautomation</strong> — the process where everything that can be automated is automated, fundamentally changing the role of an accountant.</p>
+        </div>
+        <div class="future-box">
+          <h3>What This Means</h3>
+          <p>As RPA adoption accelerates, accountants will shift from manual data entry toward strategic analysis, oversight, and decision-making — roles that require uniquely human judgment.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- References -->
+    <div class="section-card" id="references" style="display:block;">
+      <h2>References</h2>
+      <div class="divider"></div>
+      <div class="ref-list">
+
+        <div class="ref-item">
+          <span class="ref-num">1</span>
+          <p class="ref-text">Chernyak, A. (2024, May 17). Accounts payable automation - Case studies, examples, benefits &amp; challenges of AP automation. <em>ZAPTEST.</em><br>
+          <a href="https://www.zaptest.com/accounts-payable-automation-case-studies-examples-benefits-challenges-of-ap-automation" target="_blank">https://www.zaptest.com/accounts-payable-automation-case-studies-examples-benefits-challenges-of-ap-automation</a></p>
+        </div>
+
+        <div class="ref-item">
+          <span class="ref-num">2</span>
+          <p class="ref-text">Deloitte. (2025). <em>Robotics.</em><br>
+          <a href="https://www.deloitte.com/cz-sk/en/products/robotics.html" target="_blank">https://www.deloitte.com/cz-sk/en/products/robotics.html</a></p>
+        </div>
+
+        <div class="ref-item">
+          <span class="ref-num">3</span>
+          <p class="ref-text">IBM. (2021, September 22). What is robotic process automation (RPA)? <em>IBM Think.</em><br>
+          <a href="https://www.ibm.com/think/topics/rpa" target="_blank">https://www.ibm.com/think/topics/rpa</a></p>
+        </div>
+
+        <div class="ref-item">
+          <span class="ref-num">4</span>
+          <p class="ref-text">LinkedIn. (2024, December 30). The future of robotic process automation in accounting and transforming financial processes.<br>
+          <a href="https://www.linkedin.com/pulse/future-robotic-process-automation-accounting-transforming-financial-9nlac/" target="_blank">https://www.linkedin.com/pulse/future-robotic-process-automation-accounting-transforming-financial-9nlac/</a></p>
+        </div>
+
+        <div class="ref-item">
+          <span class="ref-num">5</span>
+          <p class="ref-text">Otero, A. R., &amp; Fink, R. P. (2020, December 2). Robotic process automation to aid accounting and finance departments. <em>ISACA.</em><br>
+          <a href="https://www.isaca.org/resources/isaca-journal/issues/2020/volume-6/robotic-process-automation-to-aid-accounting-and-finance-departments" target="_blank">https://www.isaca.org/resources/isaca-journal/issues/2020/volume-6/robotic-process-automation-to-aid-accounting-and-finance-departments</a></p>
+        </div>
+
+        <div class="ref-item">
+          <span class="ref-num">6</span>
+          <p class="ref-text">Schulich School of Business - York University. (2025, August 21). <em>Robotic process automation in accounting</em> [Video]. YouTube.<br>
+          <a href="https://www.youtube.com/watch?v=E4iSfdrm4Ao" target="_blank">https://www.youtube.com/watch?v=E4iSfdrm4Ao</a></p>
+        </div>
+
+        <div class="ref-item">
+          <span class="ref-num">7</span>
+          <p class="ref-text">Solutions, D. I. (2023, December 6). How much does robotic process automation cost? <em>Direct Impact Solutions.</em><br>
+          <a href="https://www.directimpactsolutions.com/en/how-much-does-robotic-process-automation-cost/" target="_blank">https://www.directimpactsolutions.com/en/how-much-does-robotic-process-automation-cost/</a></p>
+        </div>
+
+        <div class="ref-item">
+          <span class="ref-num">8</span>
+          <p class="ref-text">TMA Solutions. (2026, March 5). Streamline operations with a RPA development company. <em>TMA Solutions.</em><br>
+          <a href="https://www.tmasolutions.com/insights/rpa-development-company" target="_blank">https://www.tmasolutions.com/insights/rpa-development-company</a></p>
+        </div>
+
+        <div class="ref-item">
+          <span class="ref-num">9</span>
+          <p class="ref-text">UiPath. (n.d.). Deloitte drives internal efficiencies using UiPath business automation platform.<br>
+          <a href="https://www.uipath.com/resources/automation-case-studies/deloitte-scales" target="_blank">https://www.uipath.com/resources/automation-case-studies/deloitte-scales</a></p>
+        </div>
+
+        <div class="ref-item">
+          <span class="ref-num">10</span>
+          <p class="ref-text">UiPath. (n.d.). EY - RPA use cases in professional services.<br>
+          <a href="https://www.uipath.com/resources/automation-case-studies/ey" target="_blank">https://www.uipath.com/resources/automation-case-studies/ey</a></p>
+        </div>
+
+        <div class="ref-item">
+          <span class="ref-num">11</span>
+          <p class="ref-text">UiPath. (n.d.). PWC - Unlocking true digital transformation. <em>PwC.</em><br>
+          <a href="https://www.uipath.com/resources/automation-case-studies/pwc-digital-transformation" target="_blank">https://www.uipath.com/resources/automation-case-studies/pwc-digital-transformation</a></p>
+        </div>
+
+        <div class="ref-item">
+          <span class="ref-num">12</span>
+          <p class="ref-text">What accountants should know about robotic process automation. (2024). <em>Thomson Reuters.</em><br>
+          <a href="https://tax.thomsonreuters.com/en/insights/articles/what-accountants-should-know-about-robotic-process-automation" target="_blank">https://tax.thomsonreuters.com/en/insights/articles/what-accountants-should-know-about-robotic-process-automation</a></p>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <span>RPA ACCOUNTING</span> · BUS 237 · Simon Fraser University — Beedie School of Business
+  </footer>
+
+</body>
+</html>
